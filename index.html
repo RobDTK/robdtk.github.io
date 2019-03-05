@@ -93,17 +93,6 @@
                 .style("opacity", 0)
                 .attr("id", 'tag'+d.key.replace(/\s+/g, '')) // assign an ID to each nested data
                 .attr("d", rainline(d.values))
-                .on("mouseover", function() {
-                    svg.append("text")
-                        .attr("class", "title-text")
-                        .style("fill", sequentialScale(i))
-                        .text(d.key)
-                        .attr("text-anchor", "middle")
-                        .attr("x", (width/2)-10)
-                        .attr("y", 30);
-                })
-                .on("mouseout", function() {
-                    svg.select(".title-text").remove();
                 });
             // Add the Legend
             svg.append("text")
