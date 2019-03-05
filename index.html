@@ -8,44 +8,36 @@
             color: white;
             margin-left: 375px;
         }
-
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
             width: 100%;
         }
-
         .axisWhite line{
             stroke: white;
         }
-
         .axisWhite path{
             stroke: white;
         }
-
         .axisWhite text{
             fill: white;
         }
-
         text {
             font-family: arial;
             font-weight: bold;
             font-size: 12px;
         }
-
         .title-text {
             font-family: "Calibri Light";
             font-weight: bold;
             font-size: 12px;
         }
-
         path.line {
             fill: none;
             stroke: red;
             stroke-width: 3px;
         }
-
         .axis path,
         .axis line {
             fill: none;
@@ -58,26 +50,19 @@
 <h1>Average Monthly Rainfall from 2001-2015</h1>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
-
-
     //nesteddata = d3.nest().key(d=>d.country).entries(rain);
     //couFIN = rain.filter(d=>d.country==="FIN");
-
     //var	margin = {top: 30, right: 20, bottom: 60, left: 50},
-    var	margin = {top: 30, right: 100, bottom: 20, left: 50},
-        width = 1200 - margin.left - margin.right,
+    var	margin = {top: 30, right: 140, bottom: 20, left: 50},
+        width = 1250 - margin.left - margin.right,
         height = 550 - margin.top - margin.bottom;
-
     var parser = d3.timeParse("%b-%y");
-
     var x = d3.scaleTime().range([0, width]);
     var y = d3.scaleLinear().range([height, 0]);
-
     var rainline = d3.line()
         .x(function(d) { return x(d.date); })
         .y(function(d) { return y(d.pr); })
         .curve(d3.curveMonotoneX);
-
     var svg = d3.select("body")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -85,7 +70,6 @@
         .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
-
     let rain = d3.csv("rain12data.csv", function(data){
         data.forEach(function(d) {
             d.pr = +d.pr;
@@ -94,19 +78,14 @@
         nesteddata = d3.nest().key(d=>d.country).entries(data);
         countrySpace = width/nesteddata.length;
         countryVSpace = height/nesteddata.length;
-
         console.log(nesteddata);
-
         x.domain(d3.extent(data, function(d) { return d.date; }));
         y.domain([0, d3.max(data, function(d) { return d.pr; })]);
-
         var color = d3.scaleOrdinal(d3.schemePaired);
         var sequentialScale = d3.scaleSequential()
             .domain([0, 12])
             .interpolator(d3.interpolateRainbow);
-
         nesteddata.forEach(function(d,i) {
-
             svg.append("path")
                 .attr("class", "line")
                 .style("stroke", function() {
@@ -126,11 +105,10 @@
                 .on("mouseout", function() {
                     svg.select(".title-text").remove();
                 });
-
             // Add the Legend
             svg.append("text")
-                //.attr("x", (countrySpace/2)+i*countrySpace)
-                //.attr("y", height + (margin.bottom/2)+ 20)
+            //.attr("x", (countrySpace/2)+i*countrySpace)
+            //.attr("y", height + (margin.bottom/2)+ 20)
                 .attr("x", width+20)
                 .attr("y", (countryVSpace/2)+i*countryVSpace)
                 .attr("class", "legend")
@@ -150,9 +128,8 @@
                 })
                 .text(d.key);
 
-
+            //d[1].active = 1;
         });
-
         svg.append("g")
             .attr("class", "axisWhite")
             .attr("transform", "translate(0," + height + ")")
@@ -162,7 +139,6 @@
             .attr("x", 15)
             .attr("y", 15)
             .text("Year");
-
         svg.append("g")
             .attr("class", "axisWhite")
             .call(d3.axisLeft(y))
@@ -172,10 +148,7 @@
             //.attr("transform", "rotate(-90)")
             //.attr("fill", "#000")
             .text("mm");
-
-
     });
-
 
 </script>
 </body>
